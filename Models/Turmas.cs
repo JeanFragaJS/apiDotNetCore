@@ -4,6 +4,8 @@ namespace jeanFraga.Models
 {
     public class Turmas
     {
+
+
           [Key]
           public int Id {get; set; }
 
@@ -12,6 +14,6 @@ namespace jeanFraga.Models
           [Required(ErrorMessage = "Class name is required")]
           public string Name { get; set; }
 
-
+        
     }
 }

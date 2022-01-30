@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using jeanFraga.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace jeanFraga
 {
@@ -25,7 +28,15 @@ namespace jeanFraga
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddControllers();
+
+            services.AddDbContext<DataContext>(options => 
+              options.UseMySql(Configuration.GetConnectionString("myConnection")));
+
+            services.AddScoped<DataContext, DataContext>(); 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +46,12 @@ namespace jeanFraga
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(config => {
+              config.AllowAnyHeader();
+              config.AllowAnyHeader();
+              config.AllowAnyOrigin();
+            });
 
             app.UseHttpsRedirection();
 
